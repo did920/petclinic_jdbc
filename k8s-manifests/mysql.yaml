@@ -1,0 +1,72 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: petclinic-db-svc
+spec:
+  selector:
+    app: petclinic-db
+  ports:
+    - port: 3306
+      targetPort: 3306
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: petclinic-db
+  labels:
+    app: petclinic-db
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: petclinic-db
+      labels:
+        app: petclinic-db
+    spec:
+      containers:
+        - name: petclinic-db
+          image: mysql:latest
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+          - name: db-vol
+            mountPath: /var/lib/mysql
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-creds
+                  key: password
+            - name: TZ
+              valueFrom:
+                configMapKeyRef:
+                  key: TZ
+                  name: env-tz
+          resources:
+#            requests:
+#              cpu: 1000m
+#              memory: 1G
+#            limits:
+#              cpu: 1000m
+#              memory: 1G
+          readinessProbe:
+            tcpSocket:
+              port: 3306
+            failureThreshold: 3
+            initialDelaySeconds: 30
+          livenessProbe:
+            tcpSocket:
+              port: 3306
+            initialDelaySeconds: 30
+      volumes:
+      - name: db-vol
+        persistentVolumeClaim:
+          claimName: db-pvc
+      terminationGracePeriodSeconds: 30
+
+  selector:
+    matchLabels:
+      app: petclinic-db
+
