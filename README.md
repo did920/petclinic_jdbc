@@ -28,3 +28,18 @@
 `cd ..`  
 `kubectl apply -f k8s-manifests/`
 
+### mysql database 초기 생성 과정
+`kubectl get pod`    
+위 명령어로 db pod name 저장  
+`kubectl exec -it <db pod name> /bin/bash`  
+위 명령어로 db 접속  
+`mysql -uroot -p`  
+접속 (초기 비밀번호: passw0rd!@#)  
+mysql-initdb 라는 configmap 의 값을 query 문 또는 pring-petclinic-data-jdbc/src/main/resources/db/migration/ 안에 있는 sql 파일을 사용해서 db 생성 및 데이터 입력  
+
+
+### 접속 방법
+`kubectl get ingress`  
+위 명령어로 조회된 address 값으로 접속 ex) http://<조회된 주소>:80  
+
+
