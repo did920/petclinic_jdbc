@@ -41,5 +41,5 @@ mysql-initdb 라는 configmap 의 값을 query 문 또는 pring-petclinic-data-j
 ### 접속 방법
 `kubectl get ingress`  
 위 명령어로 조회된 address 값으로 접속 ex) http://<조회된 주소>:80  
-
+application.properties 를 수정하고 싶으면 properties.yaml 에서 properties-file CM 을 수정하면 된다.
 
