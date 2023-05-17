@@ -18,12 +18,23 @@ metadata:
     app: petclinic-db
 spec:
   replicas: 1
+  strategy: 
+    type: Recreate
   template:
     metadata:
       name: petclinic-db
       labels:
         app: petclinic-db
+  
     spec:
+      #initContainers:
+      #- name: db-init-container
+      #  image: mysql:latest
+      #  command: ["sh", "-c", "chmod +x /docker-entrypoint-initdb.d/init.sql"]
+      #  volumeMounts:
+      #    - name: mysql-initdb
+      #      mountPath: /docker-entrypoint-initdb.d
+      
       containers:
         - name: petclinic-db
           image: mysql:latest
@@ -31,6 +42,9 @@ spec:
           volumeMounts:
           - name: db-vol
             mountPath: /var/lib/mysql
+          #- name: mysql-initdb
+          #  mountPath: /docker-entrypoint-initdb.d
+            
           ports:
             - containerPort: 3306
           env:
@@ -40,7 +54,6 @@ spec:
                   name: mysql-creds
                   key: password
             - name: TZ
-              valueFrom:
                 configMapKeyRef:
                   key: TZ
                   name: env-tz
@@ -59,12 +72,15 @@ spec:
           livenessProbe:
             tcpSocket:
               port: 3306
-            initialDelaySeconds: 30
+            initialDelaySeconds: 30     
       volumes:
-      - name: db-vol
-        persistentVolumeClaim:
-          claimName: db-pvc
-      terminationGracePeriodSeconds: 30
+        - name: db-vol
+          persistentVolumeClaim:
+            claimName: db-pvc
+        #- name: mysql-initdb
+        #  configMap:
+        #    name: mysql-initdb
+      terminationGracePeriodSeconds: 30            
 
   selector:
     matchLabels:
