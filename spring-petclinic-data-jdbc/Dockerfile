@@ -4,7 +4,7 @@ RUN mkdir -p /petclinic \
     && ln -s /petclinic/properties/application.properties /petclinic/petclinic.properties 
 
 WORKDIR /petclinic
-COPY target/spring-petclinic-data-jdbc-3.0.0.BUILD-SNAPSHOT.jar petclinic.jar
+COPY build/libs/spring-petclinic-data-jdbc-3.0.0.BUILD-SNAPSHOT.jar petclinic.jar
 EXPOSE 8080
 
 ENTRYPOINT ["bash" ,"-c", "java ${JAVA_OPTION} -jar petclinic.jar --spring.config.location=classpath:/application.properties,petclinic.properties"]
