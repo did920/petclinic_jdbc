@@ -3,8 +3,9 @@
  */
 
 plugins {
+    id 'org.springframework.boot' version '3.0.5'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
-    id 'maven-publish'
 }
 
 repositories {
@@ -47,14 +48,15 @@ description = 'petclinic'
 java.sourceCompatibility = JavaVersion.VERSION_17
 java.targetCompatibility = JavaVersion.VERSION_17
 
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from(components.java)
-        }
-    }
-}
+
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'org.springframework.boot.loader.JarLauncher'
+        attributes 'Start-Class': 'org.springframework.samples.petclinic.PetClinicApplication'                               
+    }
 }
