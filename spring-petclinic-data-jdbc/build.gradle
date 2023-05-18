@@ -54,9 +54,3 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-jar {
-    manifest {
-        attributes 'Main-Class': 'org.springframework.boot.loader.JarLauncher'
-        attributes 'Start-Class': 'org.springframework.samples.petclinic.PetClinicApplication'                               
-    }
-}

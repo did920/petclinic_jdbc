@@ -22,7 +22,7 @@
 ### build 작업
 `cd spring-petclinic-data-jdbc`  
 `./gradlew clean build`  
-`docker build -t petclinic-jdbc:v1.0.1`
+`docker build -t petclinic-jdbc:v1.0.1 ./`
 
 ### k8s 배포 작업
 `cd ..`  
