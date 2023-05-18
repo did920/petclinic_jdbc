@@ -54,9 +54,9 @@ spec:
                   name: mysql-creds
                   key: password
             - name: TZ
-                configMapKeyRef:
-                  key: TZ
-                  name: env-tz
+              configMapKeyRef:
+                key: TZ
+                name: env-tz
           resources:
 #            requests:
 #              cpu: 1000m
