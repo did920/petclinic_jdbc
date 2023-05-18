@@ -21,7 +21,7 @@ spec:
     rollingUpdate:
       maxSurge: 25%
       maxUnavailable: 50%
-  replicas: 3
+  replicas: 2
   template:
     metadata:
       name: petclinic-was
